@@ -21,7 +21,7 @@ class UserProfileManager(BaseUserManager):
         if not email:
             # raise a value error exeption, [std behaviour django expects, can display the error msg]
             raise ValueError("User must have an email address")
-        # Normalize the email address,(lowercase the second half of the email)
+        # Normalize the email address,(lowercase the second half of the email), method under BaseUserManager
         email = self.normalize_email(email)
         # Creating user model, the manager creates a new user object with norm. email
         user = self.model(email=email, name=name)
@@ -46,7 +46,7 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
-        
+
 # customize the django default user model
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """
