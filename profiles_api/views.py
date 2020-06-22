@@ -4,11 +4,19 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 # All API views expected to return a std. Response
 from rest_framework.response import Response
+# Status object contains handy HTTP status codes, one can use when returning responses
+from rest_framework import status
+from . import serializers
 
 class HelloApiView(APIView):
     """
     Test API View
     """
+    # This configures the APIView to get the created serializer class, i.e.
+    # Whenever sending a 'post'/'patch' request, the expected input is a name
+    # with 10 chara. max.(validates)
+    serializer_class = serializers.HelloSerializer
+
     # request = contains request that is made through http-API, format = format
     # suffix foe the end of endpoint url
     def get(self, request, format=None):
@@ -23,3 +31,43 @@ class HelloApiView(APIView):
         # Every APIView (HTTP) functions described must return a response
         # Response need a Dictionary/List (which will o/p as JSON, when API called)
         return Response({'message':'Hello!', 'an_apiview': an_apiview})
+
+    # Creating the post request
+    def post(self, request):
+        """Create a hello message with our name"""
+        # Retrive the serializer and pass in the data, the 'post' data can
+        # be retrived through 'request.data', serializer's Job is to take,
+        # validate & convert the data into python object
+        serializer = self.serializer_class(data=request.data)
+        # validating using the name field received
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = "Hello {}".format(name)
+            return Response({'message': message})
+        else:
+            # When the 'post' input data is not valid, need to return'serializer.errors', a
+            # dictionary of all the errors based on the validation
+            # also need to change this to 400 bad request(insted of http 200 ok)
+            # to get, the API user made a bad request
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    # Creating a put request
+    def put(self, request, pk=None):
+        """Handle updating an object"""
+        # HTTP Put will update the entire object with what you provided, it will usually
+        # done to a specific url primary key
+        return Response({"method":"PUT"})
+
+    # HTTP 'Patch',
+    def patch(self, request, pk=None):
+        """Handle partial update of an object"""
+        # patch will only update those fiels that are provided in the request
+        return Response({"method":"PATCH"})
+
+    # Delete request
+    def delete(self, request, pk=None):
+        """Delete an object"""
+        return Response({"method":"Delete"})
