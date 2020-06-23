@@ -19,5 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Anything after 'api/'' matches to profiles_api app- urls sub path
-    path('api/', include('profiles_api.urls')),
+    # path('api/', include('profiles_api.urls')),
+    # Anything after 'api/'' matches to profiles_api app- urls sub path
+    path('helloapi/', include('helloworldapi.urls')),
 ]

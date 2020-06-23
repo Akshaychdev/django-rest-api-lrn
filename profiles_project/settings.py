@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'profiles_api',
+    'helloworldapi',
 ]
 
 MIDDLEWARE = [
@@ -122,5 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# ::IMPORTANT:: For every project it needs customizing, USER_MODEL needs to be
+# Added before the Very First migration,
 # To configure custom user model, look under app=profiles_api for UserProfile model
 AUTH_USER_MODEL = "profiles_api.UserProfile"

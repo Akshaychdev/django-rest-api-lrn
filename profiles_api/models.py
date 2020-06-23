@@ -47,7 +47,8 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-# customize the django default user model
+# customize the django default user model, need to configure it in settings.py
+# Before the first migrate
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """
     Database models for users in the system
