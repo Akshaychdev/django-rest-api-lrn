@@ -1,17 +1,46 @@
 from rest_framework import serializers
 
-# Serializer is a feature from Django REST Framework, allows one to easily convert data
-# Inputs in to python objects (and verify them)
-# To add 'post', 'patch', 'update' to the "HelloApiView", then it needs a Serializer
-# To receive the contents and verify the request matches..
+from profiles_api import models
 
-# Serializer class from module serializers
-class HelloSerializer(serializers.Serializer):
-    """
-    Serializes a name field for testing our APIView
-    """
-    # Simple serializer - accepts a name input, then adding it to the APIView
-    # to test the 'post' functionality
+# Adding a new serializer for the profiles_api project
+# Using a "ModelSerializer", which is similer to a regular serializer
+# With some added functionality-easy to work with existing django db models,
+# (similer functionality like generating forms using ModelForms)
 
-    # Creates a name field(CharField), grab the text like in Django Forms,
-    name = serializers.CharField(max_length=10)
+class UserProfileSerializer(serializers.ModelSerializer):
+    """Serializes a user profile object"""
+
+    class Meta:
+        model = models.UserProfile
+        fields = ('id', 'email', 'name', 'password')
+        # 'passwords' only needed when creating new users to the system, and users
+        # not want to retrive the password hash, so 'password' must be 'write' only
+        # So when using 'GET' there won't be any password hash in the request
+        # To add this extra-configurations to the already existing DB fields
+        extra_kwargs = {
+            'password': {
+                'write_only': True,
+                # custome style, set the input field type to a password field
+                'style': {'input_type': 'password'}
+            }
+        }
+
+    # By default the 'ModelSerializer' allows one to create simple objects in the DB
+    # But we got our 'create_user' function on the custom manager(UserProfileManager)
+    # So it needs to override the 'create' function using 'create_user' function.
+    # cz. of the reason, in 'create_user' fn. password gets created as a "hash",
+    # in default it is as clear-text, so under "UserProfileSerializer"
+
+    def create(self, validated_data):
+        """Create and return a new user"""
+        # The default procedure is, when a new object created using ModelSerializer
+        # it validates the data then it call the 'create' function
+        # passing in the validated_data, a custom 'create' function which
+        # creates and returns a new user from the UserProfile manager
+        user = models.UserProfile.objects.create_user(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            password=validated_data['password']
+        )
+
+        return user
