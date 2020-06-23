@@ -5,7 +5,7 @@ from profiles_api import models
 # Adding a new serializer for the profiles_api project
 # Using a "ModelSerializer", which is similer to a regular serializer
 # With some added functionality-easy to work with existing django db models,
-# (similer functionality like generating forms using ModelForms)
+# (same functionality like generating forms using ModelForms)
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializes a user profile object"""

@@ -18,8 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Anything after 'api/'' matches to profiles_api app- urls sub path
-    # path('api/', include('profiles_api.urls')),
-    # Anything after 'api/'' matches to profiles_api app- urls sub path
+    # Anything after 'api/' matches to profiles_api app- urls sub path
+    path('userapi/', include('profiles_api.urls')),
+    # Anything after 'helloapi/' matches to helloworldapi app- urls sub path
     path('helloapi/', include('helloworldapi.urls')),
 ]

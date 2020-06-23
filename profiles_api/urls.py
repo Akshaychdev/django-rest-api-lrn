@@ -4,3 +4,13 @@ from profiles_api import views
 from rest_framework.routers import DefaultRouter
 
 app_name = 'profiles_api'
+
+router = DefaultRouter()
+router.register('profile', views.UserProfileViewSet)
+# Only provide 'base_name' if you wanna overwrite the base name set Default
+# By the 'queryset' name
+
+urlpatterns = [
+    # adding router, it generates a list of urls associated with the viewsets
+    path('', include(router.urls)),
+]
