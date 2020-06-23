@@ -13,7 +13,7 @@ class UserProfileManager(BaseUserManager):
     """
     Manager for User profiles
     """
-    # In the manager, write functions that helps manipilate the objects, if a password not specified, it will be None
+    # manager contains functions that helps manipulate the objects, if a password not specified, it will be None
     # with django, None password wont works, it needed a hash, so until you set a password, one cannot authenticate the user
     def create_user(self, email, name, password=None):
         """Create a new user profile"""
@@ -21,7 +21,7 @@ class UserProfileManager(BaseUserManager):
         if not email:
             # raise a value error exeption, [std behaviour django expects, can display the error msg]
             raise ValueError("User must have an email address")
-        # Normalize the email address,(lowercase the second half of the email), method under BaseUserManager
+        # Normalize the email address,(lowercase the second half of the email, inbuilt), method under BaseUserManager
         email = self.normalize_email(email)
         # Creating user model, the manager creates a new user object with norm. email
         user = self.model(email=email, name=name)

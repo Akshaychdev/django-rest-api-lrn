@@ -10,7 +10,7 @@ from . import serializers
 
 class HelloApiView(APIView):
     """
-    Test API View
+    API View, to test the functionality
     """
     # This configures the APIView to get the created serializer class, i.e.
     # Whenever sending a 'post'/'patch' request, the expected input is a name
@@ -18,10 +18,10 @@ class HelloApiView(APIView):
     serializer_class = serializers.HelloSerializer
 
     # request = contains request that is made through http-API, format = format
-    # suffix foe the end of endpoint url
+    # suffix for the end of endpoint url(in which format o/p needed-JSON, XML)
     def get(self, request, format=None):
         """Returns a list of APIView features"""
-        # Define a list(here for eg.describes all the features of the API view)
+        # Endpoint set to - Define a list(here for eg.describes all the features of the API view)
         an_apiview = [
             'Uses HTTP methods as functions(get, post, patch, put, delete)',
             'Is similar to a traditional Django View',
@@ -41,19 +41,20 @@ class HelloApiView(APIView):
         serializer = self.serializer_class(data=request.data)
         # validating using the name field received
         if serializer.is_valid():
+            # serializer.validated_data must be a dictionary
             name = serializer.validated_data.get('name')
             message = "Hello {}".format(name)
             return Response({'message': message})
         else:
             # When the 'post' input data is not valid, need to return'serializer.errors', a
             # dictionary of all the errors based on the validation
-            # also need to change this to 400 bad request(insted of http 200 ok)
-            # to get, the API user made a bad request
+            # also need to change (rest_fr status) to 400 bad request(insted of http 200 ok)
+            # to inform the API user made a bad request
             return Response(
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+    # The return responses(endpoints) only for testing the working
     # Creating a put request
     def put(self, request, pk=None):
         """Handle updating an object"""
