@@ -4,8 +4,8 @@ from rest_framework import permissions
 # BasePermission helps custom permissions
 class UpdateOwnProfile(permissions.BasePermission):
     """Allow user to edit their own profile"""
-    # Add a 'has object permissions' function to the class gets called everytime
-    # a request is made(is called as default-can customize it)
+    # Add a 'has object permissions' function to the class, that gets called
+    # everytime a request is made(is called as default, we customize it)
     def has_object_permission(self, request, view, obj):
         """Check user is trying to edit their own profile"""
         # The rules

@@ -11,6 +11,8 @@ router.register('profile', views.UserProfileViewSet)
 # By the 'queryset' name
 
 urlpatterns = [
+    # Enabling login Endpoint.
+    path('login/', views.UserLoginApiView.as_view()),
     # adding router, it generates a list of urls associated with the viewsets
     path('', include(router.urls)),
 ]
