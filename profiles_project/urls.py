@@ -22,4 +22,6 @@ urlpatterns = [
     path('userapi/', include('profiles_api.urls')),
     # Anything after 'helloapi/' matches to helloworldapi app- urls sub path
     path('helloapi/', include('helloworldapi.urls')),
+    # for feed_api
+    path('feed/', include('feed_api.urls')),
 ]
